@@ -4,8 +4,8 @@
 $host = 'localhost';
 $port = 3306;
 $dbname = 'rocisteria';
-$username = 'blogadmin';
-$password = '1234';
+$username = 'root';
+$password = '';
 
 $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8";
 
