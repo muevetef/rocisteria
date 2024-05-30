@@ -1,6 +1,7 @@
 <¿<?php
     require 'daatabase.php';
-    ?> <!DOCTYPE html>
+    ?>
+<!DOCTYPE html>
     <html lang="es">
 
     <head>

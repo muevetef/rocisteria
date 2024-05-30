@@ -1,4 +1,4 @@
-DROP DATABASE rocisteria;
+-- DROP DATABASE rocisteria;
 
 CREATE DATABASE rocisteria;
 
@@ -194,7 +194,6 @@ CREATE TABLE `detalles_donacion` (
     FOREIGN KEY (`fecha`) REFERENCES `donaciones` (`fecha`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-USE rosticeria;
 
 ALTER TABLE productos
 MODIFY unidad enum(
@@ -203,7 +202,7 @@ MODIFY unidad enum(
     'unidades'
 );
 
-USE rosticeria;
+
 
 ALTER TABLE productos
 ADD COLUMN stock FLOAT(2) null,
