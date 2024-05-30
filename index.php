@@ -1,5 +1,5 @@
 <?php
-require 'daatabase.php';
+require 'database.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
