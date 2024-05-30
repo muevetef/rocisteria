@@ -1,8 +1,8 @@
-DROP DATABASE rosticeria;
+-- DROP DATABASE rocisteria;
 
-CREATE DATABASE rosticeria;
+CREATE DATABASE rocisteria;
 
-USE rosticeria;
+USE rocisteria;
 -- crear tabla alergenos
 CREATE TABLE alergenos (
     `alergeno` varchar(45) NOT NULL,
@@ -194,7 +194,6 @@ CREATE TABLE `detalles_donacion` (
     FOREIGN KEY (`fecha`) REFERENCES `donaciones` (`fecha`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-USE rosticeria;
 
 ALTER TABLE productos
 MODIFY unidad enum(
@@ -203,7 +202,7 @@ MODIFY unidad enum(
     'unidades'
 );
 
-USE rosticeria;
+
 
 ALTER TABLE productos
 ADD COLUMN stock FLOAT(2) null,
