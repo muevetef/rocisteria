@@ -1,8 +1,8 @@
-DROP DATABASE rosticeria;
+DROP DATABASE rocisteria;
 
-CREATE DATABASE rosticeria;
+CREATE DATABASE rocisteria;
 
-USE rosticeria;
+USE rocisteria;
 -- crear tabla alergenos
 CREATE TABLE alergenos (
     `alergeno` varchar(45) NOT NULL,

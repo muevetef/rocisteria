@@ -1,3 +1,4 @@
+USE rocisteria;
 INSERT INTO
     `alergenos`
 VALUES ('Altramuces'),
