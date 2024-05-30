@@ -7,6 +7,6 @@
 </head>
 <body>
     <h1>Pácina de Administración de la Rosticeria</h1>
-    //TODO: crear enlaces a las secciones
+    <a href="./productos/index.php">Productos</a>
 </body>
 </html>
