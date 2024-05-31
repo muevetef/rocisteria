@@ -22,6 +22,20 @@ $stmt->execute();
 
 // Resultado
 $compras = $stmt->fetchAll();
+
+//La Compra Insertada
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $compra = [
+        'codigo_producto' => $codigo_producto,
+        'nif' => $nif,
+        'fecha' => $fecha,
+        'cantidad' => $cantidad,
+        'precio' => $precio,
+        'iva' => $iva,
+        'caducidad' => $caducidad
+    ];
+    $compras[] = $compra;
+}
 ?>
 
 <!DOCTYPE html>

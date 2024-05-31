@@ -1,7 +1,7 @@
 <?php
 require '../database.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $codigo_producto = $_POST['codigo_producto'];
     $nif = $_POST['nif'];
     $fecha = $_POST['fecha'];
@@ -9,6 +9,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $precio = $_POST['precio'];
     $iva = $_POST['iva'];
     $caducidad = $_POST['caducidad'];
+
+    $sql = 'INSERT INTO compras_producto (codigo_producto, nif, fecha, cantidad, precio, iva, caducidad) VALUES (:codigo_producto, :nif, :fecha, :cantidad, :precio, :iva, :caducidad)';
+    $stmt = $pdo->prepare($sql);
+
+    $params = [
+        'codigo_producto' => $codigo_producto,
+        'nif' => $nif,
+        'fecha' => $fecha,
+        'cantidad' => $cantidad,
+        'precio' => $precio,
+        'iva' => $iva,
+        'caducidad' => $caducidad
+    ];
+
+    $stmt->execute($params);
+
+    header('Location: index.php');
 }
 ?>
 
