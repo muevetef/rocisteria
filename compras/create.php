@@ -3,7 +3,7 @@
 require '../database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $codproducto = $_POST['codproducto'];
+    $codigo_producto = $_POST['codigo_producto'];
     $nif = $_POST['nif'];
     $fecha = $_POST['fecha'];
     $cantidad = $_POST['cantidad'];
@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $iva = $_POST['iva'];
     $caducidad = $_POST['caducidad'];
 
-    $sql = "INSERT INTO compras_producto (codigo_producto, nif, fecha, cantidad, precio, iva, caducidad) VALUES ('$codproducto', '$nif', '$fecha', '$cantidad', '$precio', '$iva', '$caducidad')";
+    $sql = "INSERT INTO compras_producto (codigo_producto, nif, fecha, cantidad, precio, iva, caducidad) VALUES ('$codigo_producto', '$nif', '$fecha', '$cantidad', '$precio', '$iva', '$caducidad')";
 
     if ($conn->query($sql) === TRUE) {
         header("Location: index.php");
