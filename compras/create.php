@@ -1,14 +1,19 @@
 <?php
 require '../database.php';
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $codigo_producto = $_POST['codigo_producto'];
     $nif = $_POST['nif'];
-    $fecha = $_POST['fecha'];
+    $fecha = date('Y-m-d', strtotime($_POST['fecha']));  
     $cantidad = $_POST['cantidad'];
     $precio = $_POST['precio'];
     $iva = $_POST['iva'];
-    $caducidad = $_POST['caducidad'];
+    $caducidad = date('Y-m-d', strtotime($_POST['caducidad']));
 
     $sql = 'INSERT INTO compras_producto (codigo_producto, nif, fecha, cantidad, precio, iva, caducidad) VALUES (:codigo_producto, :nif, :fecha, :cantidad, :precio, :iva, :caducidad)';
     $stmt = $pdo->prepare($sql);
@@ -50,9 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                 <input type="text" class="form-control" id="nif" name="nif" required>
             </div>
             <div class="mb-3">
-                <label for="fecha" class="form-label">Fecha</label>
-                <input type="date" class="form-control" id="fecha" name="fecha" required>
-            </div>
+    <label for="fecha" class="form-label">Fecha</label>
+    <input type="datetime-local" class="form-control" id="fecha" name="fecha" required>
+</div>
             <div class="mb-3">
                 <label for="cantidad" class="form-label">Cantidad</label>
                 <input type="number" class="form-control" id="cantidad" name="cantidad" required>

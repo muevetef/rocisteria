@@ -7,7 +7,7 @@ if (!$nif) {
     exit;
 }
 
-require 'database.php';
+require '../database.php';
 $sql = 'SELECT * FROM proveedores WHERE nif = :nif';
 $stmt = $pdo->prepare($sql);
 $params = ['nif' => $nif];
@@ -34,13 +34,7 @@ $direccion = $stmt->fetch();
 // }
 
 
-echo "<pre>";
-var_dump($proveedor);
 
-var_dump($telefonos);
-var_dump($direccion);
-
-echo "</pre>";
 
 if (!$proveedor) {
     header('Location: index.php');

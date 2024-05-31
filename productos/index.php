@@ -1,6 +1,8 @@
 <?php
 require '../database.php';
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 //preparar la consulta
 $stmt = $pdo->prepare('SELECT p.codigo_producto as codigo , p.nombre as nombre, p.unidad as unidad, p.alerta_stock as alerta_stock, c.categoria as categoria, p.stock as stock, p.precio_compra as precio_compra   FROM productos p INNER JOIN categorias c ON p.id_categoria = c.id_categoria ORDER BY codigo ASC');
 
@@ -27,7 +29,7 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <body class="container">
     <h1>Administración de Productos</h1>
-    <a class="btn btn-primary btn-nueva my-2" href="create.php">Añadir Producto</a>
+    <a class="btn btn-primary btn-nueva my-2" href="Create.php">Añadir Producto</a>
     <table class="table table-bordered grocery-crud-table table-hover">
         <thead>
             <tr>
