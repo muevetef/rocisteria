@@ -11,35 +11,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $iva = $_POST['iva'];
     $caducidad = $_POST['caducidad'];
 
-    $sql = "INSERT INTO compras_producto (codigo_producto, nif, fecha, cantidad, precio, iva, caducidad) VALUES ('$codigo_producto', '$nif', '$fecha', '$cantidad', '$precio', '$iva', '$caducidad')";
+    // Check if codigo_producto exists in productos table
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM productos WHERE codigo_producto = :codigo_producto");
+    $stmt->bindParam(':codigo_producto', $codigo_producto);
+    $stmt->execute();
+    $productExists = $stmt->fetchColumn();
 
-    if ($conn->query($sql) === TRUE) {
-        header("Location: index.php");
-        exit();
+    if ($productExists) {
+        // Insert into compras_producto if codigo_producto exists
+        $sql = "INSERT INTO compras_producto (codigo_producto, nif, fecha, cantidad, precio, iva, caducidad) 
+                VALUES (:codigo_producto, :nif, :fecha, :cantidad, :precio, :iva, :caducidad)";
+        
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':codigo_producto', $codigo_producto);
+        $stmt->bindParam(':nif', $nif);
+        $stmt->bindParam(':fecha', $fecha);
+        $stmt->bindParam(':cantidad', $cantidad);
+        $stmt->bindParam(':precio', $precio);
+        $stmt->bindParam(':iva', $iva);
+        $stmt->bindParam(':caducidad', $caducidad);
+
+        if ($stmt->execute()) {
+            header("Location: index.php");
+            exit();
+        } else {
+            echo "Error: " . $sql . "<br>" . $pdo->errorInfo();
+        }
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: Código Producto no existe en la tabla de productos.";
     }
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Añadir Compra</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
-
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">Añadir Compra</h1>
-        
         <form method="post" action="create.php">
             <div class="mb-3">
-                <label for="codproducto" class="form-label">Código Producto</label>
-                <input type="text" class="form-control" id="codproducto" name="codproducto" required>
+                <label for="codigo_producto" class="form-label">Código Producto</label>
+                <input type="text" class="form-control" id="codigo_producto" name="codigo_producto" required>
             </div>
             <div class="mb-3">
                 <label for="nif" class="form-label">NIF</label>
@@ -74,5 +92,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 </body>
-
 </html>
