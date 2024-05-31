@@ -39,6 +39,7 @@ $comandas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <input type="text" name="comensales" class="form-control mr-2" placeholder="Comensales" required>
             <input type="text" name="ticket" class="form-control mr-2" placeholder="Ticket" required>
             <button type="submit" class="btn btn-primary">Agregar</button>
+            <a href="../comandas/generatePDF.php" class="btn btn-primary">Generar PDF</a>
         </form>
         <table id= "comandas-table" class="table table-bordered">
             <thead class="thead-dark">
@@ -90,69 +91,86 @@ $comandas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-$(document).ready(function() {
-    $('.edit-button').click(function(e) {
-        e.preventDefault();
-        var rowId = $(this).closest('tr').attr('id');
-        var inputs = $('#' + rowId + ' input');
-        var button = $(this);
+document.addEventListener('DOMContentLoaded', function() {
+    var editButtons = document.querySelectorAll('.edit-button');
+    editButtons.forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            var rowId = this.closest('tr').id;
+            var inputs = document.querySelectorAll('#' + rowId + ' input');
 
-        if (button.text() === 'Editar') {
-            inputs.prop('readonly', false);
-            button.text('Guardar');
-            button.removeClass('btn-warning');
-            button.addClass('btn-success');
-        } else {
-            var data = {id: rowId.replace('comanda-', '')};
-            inputs.each(function() {
-                data[$(this).attr('name')] = $(this).val();
-            });
+            if (this.textContent === 'Editar') {
+                inputs.forEach(function(input) {
+                    input.readOnly = false;
+                });
+                this.textContent = 'Guardar';
+                this.classList.remove('btn-warning');
+                this.classList.add('btn-success');
+            } else {
+                var data = {id: rowId.replace('comanda-', '')};
+                inputs.forEach(function(input) {
+                    data[input.name] = input.value;
+                });
 
-            $.post('update.php', data, function(response) {
-                inputs.prop('readonly', true);
-                button.text('Editar');
-                button.removeClass('btn-success');
-                button.addClass('btn-warning');
-            });
-        }
+                var formData = new URLSearchParams();
+                for (var key in data) {
+                    formData.append(key, data[key]);
+                }
+
+                fetch('update.php', {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(function(response) {
+                    if (!response.ok) {
+                        throw new Error('Error en la solicitud POST: ' + response.statusText);
+                    }
+                    return response;
+                })
+                .then(function(response) {
+                    location.reload();
+                })
+                .catch(function(error) {
+                    console.error('Error:', error);
+                });
+            }
+        });
     });
 });
-</script>
-<script>
-$(document).ready(function() {
-    var table = $('#comandas-table');
-    var tbody = table.find('tbody');
+
+document.addEventListener('DOMContentLoaded', function() {
+    var table = document.querySelector('#comandas-table');
+    var tbody = table.querySelector('tbody');
 
     function sortTable(button, index) {
-        var rows = tbody.find('tr').toArray();
+        var rows = Array.from(tbody.querySelectorAll('tr'));
         rows.sort(function(a, b) {
-            var aValue = $(a).children('td').eq(index).text();
-            var bValue = $(b).children('td').eq(index).text();
+            var aValue = a.children[index].textContent;
+            var bValue = b.children[index].textContent;
 
-            // Intenta convertir a números
             var numAValue = Number(aValue);
             var numBValue = Number(bValue);
 
-            // Si ambos son números, compáralos como números
             if (!isNaN(numAValue) && !isNaN(numBValue)) {
-                return button.hasClass('asc') ? numAValue - numBValue : numBValue - numAValue;
+                return button.classList.contains('asc') ? numAValue - numBValue : numBValue - numAValue;
             }
 
-            // De lo contrario, compáralos como texto
-            return button.hasClass('asc') ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+            return button.classList.contains('asc') ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
         });
 
         rows.forEach(function(row) {
-            tbody.append(row);
+            tbody.appendChild(row);
         });
 
-        button.toggleClass('asc');
+        button.classList.toggle('asc');
     }
 
-    $('.sort-button').click(function() {
-        var button = $(this);
-        var columnIndex = button.data('column-index');
-        sortTable(button, columnIndex);
+    var sortButtons = document.querySelectorAll('.sort-button');
+    sortButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var columnIndex = this.dataset.columnIndex;
+            sortTable(this, columnIndex);
+        });
     });
 });
 </script>

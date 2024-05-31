@@ -1,0 +1,7 @@
+{
+    "require": {
+        "dompdf/dompdf": "^3.0",
+        "9armproject/tcpdf": "^6.4",
+        "tecnickcom/tcpdf": "^6.7"
+    }
+}
