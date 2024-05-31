@@ -27,7 +27,7 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <body class="container">
     <h1>Administración de Productos</h1>
-    <a class="btn btn-primary btn-nueva my-2" href="Create.php">Añadir Producto</a>
+    <a class="btn btn-primary btn-nueva my-2" href="create.php">Añadir Producto</a>
     <table class="table table-bordered grocery-crud-table table-hover">
         <thead>
             <tr>
@@ -38,6 +38,7 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <th scope="col">ID Categoria</th>
                 <th scope="col">Stock</th>
                 <th scope="col">Precio</th>
+                <th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -50,6 +51,18 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= $producto['categoria'] ?></td>
                     <td><?= $producto['stock'] ?></td>
                     <td><?= $producto['precio_compra'] ?></td>
+                    <td>
+                        <form id="delete-form" action="delete.php" method="post">
+                            <input type="hidden" name="_method" value="delete">
+                            <input type="hidden" name="id" value="<?= $producto['codigo'] ?>">
+                            <button type="submit" class="btn btn-danger btn-nueva my-2">Eliminar</button>
+                        </form>
+                        <form id="update-form" action="delete.php" method="post">
+                            <input type="hidden" name="_method" value="put">
+                            <input type="hidden" name="id" value="<?= $producto['codigo'] ?>">
+                            <button type="submit" class="btn btn-danger btn-nueva my-2">Eliminar</button>
+                        </form>
+                    </td>
                 </tr>
             <?php endforeach ?>
         </tbody>
