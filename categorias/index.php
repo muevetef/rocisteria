@@ -55,6 +55,12 @@ $categorias= $stmt->fetchAll();
                    
                     <a href="form.php" class="text-blue-500 hover:underline">Ir a formulario</a>
                 </div>
+
+                <form id_categoria="delete-form" action="delete.php" method="post" class="mt-12">
+                        <input type="hidden" name="_method" value="delete">
+                        <input type="hidden" name="id_categoria" value="<?= $post['id_categoria'] ?>">
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none">Eliminar</button>
+                    </form>
             
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

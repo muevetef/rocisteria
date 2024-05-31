@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $id = trim(htmlspecialchars($_POST['id']));
     $categoria = trim(htmlspecialchars($_POST['categoria']));
 
-    $sql = 'INSERT INTO categorias (id, categoria) VALUES (:id, :categoria)';
+    $sql = 'INSERT INTO categorias (id_categoria, categoria) VALUES (:id, :categoria)';
     $stmt = $pdo->prepare($sql);
 
     $params = [
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                     <textarea id="categoria" name="categoria" placeholder="Escribe la categoria..." class="w-full px-4 py-2 border rounded focus:ring focus:ring-purple-300 focus:outline-none"></textarea>
                 </div>
                 <div class="flex items-center justify-between">
-                    <button type="submit" name="submit" class="bg-pink-500 text-white px-4 py-2 rounded hover:bg-white-600 focus:outline-none">Categorías</button>
+                    <button type="submit" name="submit" class="bg-pink-500 text-white px-4 py-2 rounded hover:bg-white-600 focus:outline-none">Enviar</button>
                     <a href="index.php" class="text-purple-500 hover:underline">Ir a Index.php</a>
                 </div>
             </form>
