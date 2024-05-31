@@ -41,8 +41,7 @@
         <li><a href="ingredientes_segundo.php">Ingredientes del 2º plato</a></li>
         <li><a href="ingredientes_postre.php">Ingredientes del postre</a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      
       </ul>
     </div>
   </div>
