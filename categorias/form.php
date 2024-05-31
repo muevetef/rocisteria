@@ -6,15 +6,15 @@ require '../database.php';
 //si todo va bién hacemos una redirección a index
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
-    $title = trim(htmlspecialchars($_POST['title']));
-    $body = trim(htmlspecialchars($_POST['body']));
+    $id = trim(htmlspecialchars($_POST['id']));
+    $categoria = trim(htmlspecialchars($_POST['categoria']));
 
-    $sql = 'INSERT INTO posts (title, body) VALUES (:title, :body)';
+    $sql = 'INSERT INTO categorias (id, categoria) VALUES (:id, :categoria)';
     $stmt = $pdo->prepare($sql);
 
     $params = [
-        'title' => $title,
-        'body' => $body
+        'id' => $id,
+        'categoria' => $categoria
     ];
 
     $stmt->execute($params);
@@ -45,11 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             <form action="#" method="post">
                 <div class="mb-4">
                     <label for="title" class="block text-purple-700 font-medium">Id</label>
-                    <input type="text" id="title" name="title" placeholder="Título del post" class="w-full px-4 py-2 border rounded focus:ring focus:ring-purple-300 focus:outline-none">
+                    <input type="text" id="id" name="id" placeholder="id" class="w-full px-4 py-2 border rounded focus:ring focus:ring-purple-300 focus:outline-none">
                 </div>
                 <div class="mb-6">
-                    <label for="body" class="block text-purple-700 font-medium">Categoría</label>
-                    <textarea id="body" name="body" placeholder="Escribe el contenido..." class="w-full px-4 py-2 border rounded focus:ring focus:ring-purple-300 focus:outline-none"></textarea>
+                    <label for="categoria" class="block text-purple-700 font-medium">Categoría</label>
+                    <textarea id="categoria" name="categoria" placeholder="Escribe la categoria..." class="w-full px-4 py-2 border rounded focus:ring focus:ring-purple-300 focus:outline-none"></textarea>
                 </div>
                 <div class="flex items-center justify-between">
                     <button type="submit" name="submit" class="bg-pink-500 text-white px-4 py-2 rounded hover:bg-white-600 focus:outline-none">Categorías</button>
