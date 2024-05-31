@@ -1,5 +1,4 @@
 <?php
-// Include the database connection file
 require '../database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -11,14 +10,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $iva = $_POST['iva'];
     $caducidad = $_POST['caducidad'];
 
-    // Check if codigo_producto exists in productos table
+    // Check if code exists
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM productos WHERE codigo_producto = :codigo_producto");
     $stmt->bindParam(':codigo_producto', $codigo_producto);
     $stmt->execute();
     $productExists = $stmt->fetchColumn();
 
     if ($productExists) {
-        // Insert into compras_producto if codigo_producto exists
+        
         $sql = "INSERT INTO compras_producto (codigo_producto, nif, fecha, cantidad, precio, iva, caducidad) 
                 VALUES (:codigo_producto, :nif, :fecha, :cantidad, :precio, :iva, :caducidad)";
         
@@ -57,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form method="post" action="create.php">
             <div class="mb-3">
                 <label for="codigo_producto" class="form-label">Código Producto</label>
-                <input type="text" class="form-control" id="codigo_producto" name="codigo_producto" required>
+                <input type="number" class="form-control" id="codigo_producto" name="codigo_producto" required>
             </div>
             <div class="mb-3">
                 <label for="nif" class="form-label">NIF</label>
@@ -88,7 +87,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
     </div>
 
-    <!-- Include Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 </body>
