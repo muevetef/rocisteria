@@ -11,7 +11,7 @@ $isDeleteRequest = $_SERVER['REQUEST_METHOD'] === 'POST' &&
 if ($isDeleteRequest) {
     $id_categoria = $_POST['id_categoria'];
 
-    $sql = 'DELETE FROM posts WHERE id_categoria = :id_categoria';
+    $sql = 'DELETE FROM categorias WHERE id_categoria = :id_categoria';
 
     $stmt = $pdo->prepare($sql);
    
