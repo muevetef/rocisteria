@@ -19,20 +19,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $code = trim(htmlspecialchars($_POST['code-p']));
     $nombre = trim(htmlspecialchars($_POST['nombre']));
     $unidad = trim(htmlspecialchars($_POST['unidad']));
-    $nombre = trim(htmlspecialchars($_POST['nombre']));
+    $categoria = trim(htmlspecialchars($_POST['categoria']));
+    $alertaStock = trim(htmlspecialchars($_POST['alerta']));
+    $stock = trim(htmlspecialchars($_POST['stock']));
+    $precio = trim(htmlspecialchars($_POST['precio']));
 
 
-    $sql3 = 'INSERT INTO posts (title, body) VALUES (:title, :body)';
-    $stmt = $pdo->prepare($sql);
+    $sql3 = 'INSERT INTO productos (codigo_producto, nombre, unidad, alerta_stock, id_categoria, stock, precio_compra) VALUES (:code, :nombre, :unidad, :alerta, :categoria, :stock, :precio)';
+
+    $stmt3 = $pdo->prepare($sql3);
 
     $params = [
-        'title' => $title,
-        'body' => $body
+        'code' => $code,
+        'nombre' => $nombre,
+        'unidad' => $unidad,
+        'alerta' => $alertaStock,
+        'categoria' => $categoria,
+        'stock' => $stock,
+        'precio' => $precio
     ];
 
-    $stmt->execute($params);
-
+    $stmt3->execute($params);
+    // echo "<pre>";
+    // var_dump($params);
+    // echo "</pre>";
+    // die();
     header('Location: index.php');
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -46,16 +59,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 </head>
 
 <body>
-    <header class="bg-blue-500 text-white p-4">
-        <div class="container mx-auto">
-            <h1 class="text-3xl font-semibold">Nuevo Producto</h1>
-        </div>
-    </header>
     <div class="container-sm w-50">
+        <h1>Nuevo Producto</h1>
         <form action="#" method="post">
             <div class="mb-3">
                 <label for="code-p" class="form-label">Código del Producto:</label>
-                <input type="text" class="form-control" name="code-p" id="code-p">
+                <input type="number" class="form-control" name="code-p" id="code-p">
             </div>
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre:</label>
@@ -83,6 +92,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
                         <option value="<?= $categoria['id_categoria'] ?>"><?= $categoria['categoria'] ?></option>
                     <?php endforeach ?>
                 </select>
+            </div>
+            <div class="mb-3">
+                <label for="stock" class="form-label">Stock:</label>
+                <input type="text" class="form-control" name="stock" id="stock">
+            </div>
+            <div class="mb-3">
+                <label for="precio" class="form-label">Precio de compra:</label>
+                <input type="text" class="form-control" name="precio" id="precio">
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary btn-nueva my-2" type="submit" name="submit">Añadir</button>
             </div>
         </form>
     </div>
