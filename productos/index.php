@@ -52,13 +52,9 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= $producto['stock'] ?></td>
                     <td><?= $producto['precio_compra'] ?></td>
                     <td>
+                        <a class="btn btn-warning btn-nueva my-2" href="update.php?id=<?= $producto['codigo'] ?>">Editar</a>
                         <form id="delete-form" action="delete.php" method="post">
                             <input type="hidden" name="_method" value="delete">
-                            <input type="hidden" name="id" value="<?= $producto['codigo'] ?>">
-                            <button type="submit" class="btn btn-danger btn-nueva my-2">Eliminar</button>
-                        </form>
-                        <form id="update-form" action="delete.php" method="post">
-                            <input type="hidden" name="_method" value="put">
                             <input type="hidden" name="id" value="<?= $producto['codigo'] ?>">
                             <button type="submit" class="btn btn-danger btn-nueva my-2">Eliminar</button>
                         </form>
@@ -69,6 +65,15 @@ $productos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </table>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+          const form = document.querySelector("#delete-form");
+    form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        if(confirm("Estas seguro de que quiers borrar la entrada?")){
+          form.submit();
+        }
+    })
+    </script>
 </body>
 
 </html>
