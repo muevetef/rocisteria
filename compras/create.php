@@ -3,15 +3,15 @@
 require '../database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $codproducto = $_POST['codproducto'];
+    $nif = $_POST['nif'];
     $fecha = $_POST['fecha'];
-    $proveedor = $_POST['proveedor'];
-    $producto = $_POST['producto'];
     $cantidad = $_POST['cantidad'];
     $precio = $_POST['precio'];
-    $id = $_POST['id'];
+    $iva = $_POST['iva'];
     $caducidad = $_POST['caducidad'];
 
-    $sql = "INSERT INTO compras_producto (fecha, proveedor, producto, cantidad, precio, id, caducidad) VALUES ('$fecha', '$proveedor', '$producto', '$cantidad', '$precio', '$id', '$caducidad')";
+    $sql = "INSERT INTO compras_producto (codigo_producto, nif, fecha, cantidad, precio, iva, caducidad) VALUES ('$codproducto', '$nif', '$fecha', '$cantidad', '$precio', '$iva', '$caducidad')";
 
     if ($conn->query($sql) === TRUE) {
         header("Location: index.php");
@@ -38,20 +38,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         <form method="post" action="create.php">
             <div class="mb-3">
-                <label for="id" class="form-label">ID</label>
-                <input type="text" class="form-control" id="id" name="id" required>
+                <label for="codproducto" class="form-label">Código Producto</label>
+                <input type="text" class="form-control" id="codproducto" name="codproducto" required>
+            </div>
+            <div class="mb-3">
+                <label for="nif" class="form-label">NIF</label>
+                <input type="text" class="form-control" id="nif" name="nif" required>
             </div>
             <div class="mb-3">
                 <label for="fecha" class="form-label">Fecha</label>
                 <input type="date" class="form-control" id="fecha" name="fecha" required>
-            </div>
-            <div class="mb-3">
-                <label for="proveedor" class="form-label">Proveedor</label>
-                <input type="text" class="form-control" id="proveedor" name="proveedor" required>
-            </div>
-            <div class="mb-3">
-                <label for="producto" class="form-label">Producto</label>
-                <input type="text" class="form-control" id="producto" name="producto" required>
             </div>
             <div class="mb-3">
                 <label for="cantidad" class="form-label">Cantidad</label>
@@ -62,10 +58,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="number" step="0.01" class="form-control" id="precio" name="precio" required>
             </div>
             <div class="mb-3">
+                <label for="iva" class="form-label">IVA</label>
+                <input type="text" class="form-control" id="iva" name="iva" required>
+            </div>
+            <div class="mb-3">
                 <label for="caducidad" class="form-label">Caducidad</label>
                 <input type="date" class="form-control" id="caducidad" name="caducidad" required>
             </div>
-            <button type="submit" class="btn btn-primary">Añadir</button>
+            <button type="submit" name="submit" class="btn btn-primary">Añadir</button>
+            <a href="index.php">Volver</a>
         </form>
     </div>
 

@@ -1,54 +1,70 @@
 <?php
-    require 'database.php';
+require '../database.php';
 
-    //Preparar la consulta
-    $stmt = $pdo->prepare('SELECT * FROM compras_producto');
+// Sort y ordenar parametros 'codigo_producto'
+$sort_by = $_GET['sort_by'] ?? 'codigo_producto';
+$sort_order = $_GET['sort_order'] ?? 'ASC';
 
-    //Ejecutamos la consulta
-    $stmt->execute();
+// Validar parametros
+$valid_columns = ['codigo_producto', 'nif', 'fecha', 'cantidad', 'precio', 'iva', 'caducidad'];
+if (!in_array($sort_by, $valid_columns)) {
+    $sort_by = 'codigo_producto';
+}
+if ($sort_order !== 'DESC') {
+    $sort_order = 'ASC';
+}
 
-    //Obtenemos los resultados
-    $posts = $stmt->fetchAll();
+// Preparar el query
+$stmt = $pdo->prepare("SELECT * FROM compras_producto ORDER BY $sort_by $sort_order");
 
-    //echo "<pre>";
-    //var_dump($posts);
-    //echo "</pre>";
+// Ejecutar
+$stmt->execute();
+
+// Resultado
+$compras = $stmt->fetchAll();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Mini-Blog</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Compras</title>
 </head>
-
-<body class="bg-gray-100">
-    <header class="bg-blue-500 text-white p-4">
-        <div class="container mx-auto">
-            <h1 class="text-3xl font-semibold">Mini Blog Stuff</h1>
-        </div>
-    </header>
-
-    <div class="container mx-auto p-4 mt-4">
-    <?php foreach ($posts as $post): ?>
-        <div class="md my-4">
-            <div class="rounded-lg shadow-md">
-                <div class="p-4">
-                    <h2 class="text-xl font-semibold"><a href="post.php?id=<?= $post['id']?>"><?= $post['title']?></a></h2>
-                    <p class="text-gray-700 text-lg mt-2">
-                    <?= $post['body']?>
-                    </p>
-                    <small>Creado el <?= $post['created_at']?></small>
-                </div>
-            </div>
-        </div>
-        <?php endforeach ?>
-        <div class="mt-6">
-            <a href="create.php" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none">New Post</a>
-        </div>
-
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Página de las Compras</h2>
+        <a href="create.php" class="btn btn-primary mb-4">Añadir Compra</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th><a href="?sort_by=codigo_producto&sort_order=<?= $sort_by === 'codigo_producto' && $sort_order === 'ASC' ? 'DESC' : 'ASC' ?>">Código Producto</a></th>
+                    <th><a href="?sort_by=nif&sort_order=<?= $sort_by === 'nif' && $sort_order === 'ASC' ? 'DESC' : 'ASC' ?>">NIF</a></th>
+                    <th><a href="?sort_by=fecha&sort_order=<?= $sort_by === 'fecha' && $sort_order === 'ASC' ? 'DESC' : 'ASC' ?>">Fecha</a></th>
+                    <th><a href="?sort_by=cantidad&sort_order=<?= $sort_by === 'cantidad' && $sort_order === 'ASC' ? 'DESC' : 'ASC' ?>">Cantidad</a></th>
+                    <th><a href="?sort_by=precio&sort_order=<?= $sort_by === 'precio' && $sort_order === 'ASC' ? 'DESC' : 'ASC' ?>">Precio</a></th>
+                    <th><a href="?sort_by=iva&sort_order=<?= $sort_by === 'iva' && $sort_order === 'ASC' ? 'DESC' : 'ASC' ?>">IVA</a></th>
+                    <th><a href="?sort_by=caducidad&sort_order=<?= $sort_by === 'caducidad' && $sort_order === 'ASC' ? 'DESC' : 'ASC' ?>">Caducidad</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($compras as $compra): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($compra['codigo_producto'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($compra['nif'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($compra['fecha'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($compra['cantidad'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($compra['precio'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($compra['iva'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($compra['caducidad'] ?? '') ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 </body>
 </html>
