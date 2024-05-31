@@ -1,5 +1,5 @@
 <?php
-require 'database.php';
+require '../database.php';
 
 //Preparar la consulta
 $stmt = $pdo->prepare('SELECT * FROM proveedores');
