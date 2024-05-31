@@ -11,7 +11,7 @@ require 'database.php';
 </head>
 
 <body>
-    <h1>Pácina de Administración de la Rosticeria</h1>
+    <h1>Pácina de Administración de las donaciones</h1>
     //TODO: crear enlaces a las secciones
 </body>
 
