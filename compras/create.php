@@ -9,36 +9,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $precio = $_POST['precio'];
     $iva = $_POST['iva'];
     $caducidad = $_POST['caducidad'];
-
-    // Check if code exists
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM productos WHERE codigo_producto = :codigo_producto");
-    $stmt->bindParam(':codigo_producto', $codigo_producto);
-    $stmt->execute();
-    $productExists = $stmt->fetchColumn();
-
-    if ($productExists) {
-        
-        $sql = "INSERT INTO compras_producto (codigo_producto, nif, fecha, cantidad, precio, iva, caducidad) 
-                VALUES (:codigo_producto, :nif, :fecha, :cantidad, :precio, :iva, :caducidad)";
-        
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':codigo_producto', $codigo_producto);
-        $stmt->bindParam(':nif', $nif);
-        $stmt->bindParam(':fecha', $fecha);
-        $stmt->bindParam(':cantidad', $cantidad);
-        $stmt->bindParam(':precio', $precio);
-        $stmt->bindParam(':iva', $iva);
-        $stmt->bindParam(':caducidad', $caducidad);
-
-        if ($stmt->execute()) {
-            header("Location: index.php");
-            exit();
-        } else {
-            echo "Error: " . $sql . "<br>" . $pdo->errorInfo();
-        }
-    } else {
-        echo "Error: Código Producto no existe en la tabla de productos.";
-    }
 }
 ?>
 
@@ -53,10 +23,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">Añadir Compra</h1>
-        <form method="post" action="create.php">
-            <div class="mb-3">
-                <label for="codigo_producto" class="form-label">Código Producto</label>
-                <input type="number" class="form-control" id="codigo_producto" name="codigo_producto" required>
+    <form method="post" action="create.php">
+        <div class="mb-3">
+            <label for="codigo_producto" class="form-label">Código Producto</label>
+            <input type="number" class="form-control" id="codigo_producto" name="codigo_producto" required>
             </div>
             <div class="mb-3">
                 <label for="nif" class="form-label">NIF</label>
