@@ -64,21 +64,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </thead>
             <tbody>
                 <?php foreach ($compras as $compra): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($compra['codigo_producto'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($compra['nif'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($compra['fecha'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($compra['cantidad'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($compra['precio'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($compra['iva'] ?? '') ?></td>
-                        <td><?= htmlspecialchars($compra['caducidad'] ?? '') ?></td>
-                    </tr>
+                <tr>
+                    <td><?= htmlspecialchars($compra['codigo_producto'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($compra['nif'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($compra['fecha'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($compra['cantidad'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($compra['precio'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($compra['iva'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($compra['caducidad'] ?? '') ?></td>
+                    <td><a href="update.php?id=<?= $compra['codigo_producto'] ?>" class="btn btn-warning">Editar</a></td>
+                    <td>
+                        <form action="delete.php" method="POST" onsubmit="return confirm('Seguro que quieres eliminar la entrada?')">
+                            <input type="hidden" name="_method" value="delete">
+                            <input type="hidden" name="id" value="<?= $compra['codigo_producto'] ?>">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
 </body>
 </html>
