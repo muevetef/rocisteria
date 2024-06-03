@@ -13,6 +13,7 @@ require 'database.php';
 <body>
     <h1>Pácina de Administración de la Rosticeria</h1>
     <a href="./productos/index.php">Productos</a>
+    <a href="./mail.php">Contacto</a>
 </body>
 
 </html>
