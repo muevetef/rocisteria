@@ -12,23 +12,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $iva = $_POST['iva'];
     $caducidad = $_POST['caducidad'];
 
-    $sql = 'INSERT INTO compras_producto (codigo_producto, nif, fecha, cantidad, precio, iva, caducidad) VALUES (:codigo_producto, :nif, :fecha, :cantidad, :precio, :iva, :caducidad)';
-    $stmt = $pdo->prepare($sql);
+    // Verificar si existe el codigo_producto en la tabla
+    $check_sql = 'SELECT COUNT(*) FROM productos WHERE codigo_producto = :codigo_producto';
+    $check_stmt = $pdo->prepare($check_sql);
+    $check_stmt->execute(['codigo_producto' => $codigo_producto]);
+    $exists = $check_stmt->fetchColumn();
 
-    $params = [
-        'codigo_producto' => $codigo_producto,
-        'nif' => $nif,
-        'fecha' => $fecha,
-        'cantidad' => $cantidad,
-        'precio' => $precio,
-        'iva' => $iva,
-        'caducidad' => $caducidad
-    ];
+    if ($exists) {
+        $sql = 'INSERT INTO compras_producto (codigo_producto, nif, fecha, cantidad, precio, iva, caducidad) VALUES (:codigo_producto, :nif, :fecha, :cantidad, :precio, :iva, :caducidad)';
+        $stmt = $pdo->prepare($sql);
 
-    $stmt->execute($params);
+        $params = [
+            'codigo_producto' => $codigo_producto,
+            'nif' => $nif,
+            'fecha' => $fecha,
+            'cantidad' => $cantidad,
+            'precio' => $precio,
+            'iva' => $iva,
+            'caducidad' => $caducidad
+        ];
 
-    header('Location: index.php');
-    exit;
+        $stmt->execute($params);
+
+        header('Location: index.php');
+        exit;
+    } else {
+        echo "Error: El código del producto no existe.";
+    }
 }
 ?>
 
